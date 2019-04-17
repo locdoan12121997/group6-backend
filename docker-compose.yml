@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'register_db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - exam-app-db:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - '8080:8080'
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+volumes:
+  exam-app-db:
+    name: exam-app-db
