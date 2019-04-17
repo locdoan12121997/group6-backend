@@ -1,6 +1,7 @@
 version: "3.3"
 services:
-  db:
+  jersey-db:
+    container_name: jersey-db
     image: mysql:5.7
     restart: always
     environment:
@@ -14,17 +15,16 @@ services:
       - '3306:3306'
     expose:
       - '3306'
-  app:
-    container_name: app
+  jersey-app:
+    container_name: jersey-app
     restart: always
     build: .
     ports:
       - '8080:8080'
     volumes:
-      - .:/app
+      - src:/opt/app/src
     depends_on:
-      - db
+      - jersey-db
 
 volumes:
   exam-app-db:
-    name: exam-app-db
