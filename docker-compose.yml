@@ -12,9 +12,9 @@ services:
     volumes:
       - exam-app-db:/var/lib/mysql
     ports:
-      - '3306:3306'
+      - '3307:3306'
     expose:
-      - '3306'
+      - '3307'
   jersey-app:
     container_name: jersey-app
     restart: always
@@ -28,3 +28,4 @@ services:
 
 volumes:
   exam-app-db:
+  src:
