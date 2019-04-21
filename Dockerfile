@@ -8,11 +8,11 @@ WORKDIR /opt/app
 # selectively add the POM file and
 # install dependencies
 COPY pom.xml /opt/app/
-RUN mvn install
+RUN mvn install -DskipTests
 
 # rest of the project
 COPY src /opt/app/src
-RUN mvn package
+RUN mvn package -DskipTests
 
 # local application port
 EXPOSE 8080
