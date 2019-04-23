@@ -6,7 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
-
+import java.sql.*;
 /**
  * Main class.
  *
@@ -14,6 +14,10 @@ import java.net.URI;
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
     public static final String BASE_URI = "http://0.0.0.0:8080/myapp/";
+    static final String DB_URL = "jdbc:mysql://jersey_db:3306/register_db";
+    static final String USER = "user";
+    static final String PASS = "password";
+    static Connection connection = null;
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -35,11 +39,17 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        final HttpServer server = startServer();
-//        System.out.println(String.format("Jersey app started with WADL available at "
-//                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-//        System.in.read();
-//        server.stop();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("Connecting to jersey database");
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+        }
+        catch (Exception exception){
+            exception.printStackTrace();
+        }
+        finally {
+            final HttpServer server = startServer();
+        }
     }
 }
 

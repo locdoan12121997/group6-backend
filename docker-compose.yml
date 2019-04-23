@@ -14,7 +14,7 @@ services:
     ports:
       - '3307:3306'
     expose:
-      - '3307'
+      - '3306'
   jersey-app:
     container_name: jersey-app
     restart: always
