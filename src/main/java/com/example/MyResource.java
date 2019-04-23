@@ -4,6 +4,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -20,6 +22,22 @@ public class MyResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-        return "Got it!";
+        String ans = "";
+        try {
+            Statement stm = Main.connection.createStatement();
+            String sql = "SELECT id, name FROM Persons";
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                ans += id + ":\t" + name + "\n";
+            }
+            rs.close();
+            stm.close();
+        }
+        catch (Exception exp){
+            ans = exp.toString();
+        }
+        return ans;
     }
 }
