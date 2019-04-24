@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.MyResourceTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.435 sec - in com.example.MyResourceTest
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE! - in com.example.MyResourceTest
+testGetIt(com.example.MyResourceTest)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at com.example.MyResourceTest.testGetIt(MyResourceTest.java:41)
+

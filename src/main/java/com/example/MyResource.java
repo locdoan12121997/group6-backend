@@ -39,7 +39,6 @@ public class MyResource {
         catch (Exception exp){
             System.out.println(exp.toString());
         }
-        System.out.println(value);
         return ans;
     }
 }

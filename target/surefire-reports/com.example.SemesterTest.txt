@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.example.SemesterTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.067 sec <<< FAILURE! - in com.example.SemesterTest
+testDeleteSemester(com.example.SemesterTest)  Time elapsed: 0.008 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at com.example.SemesterTest.<init>(SemesterTest.java:20)
+
+testUpdateSemester(com.example.SemesterTest)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at com.example.SemesterTest.<init>(SemesterTest.java:20)
+
+testCreateSemester(com.example.SemesterTest)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at com.example.SemesterTest.<init>(SemesterTest.java:20)
+

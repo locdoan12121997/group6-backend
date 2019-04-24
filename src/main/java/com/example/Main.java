@@ -40,7 +40,7 @@ public class Main {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Connecting to jersey database");
@@ -57,6 +57,7 @@ public class Main {
 
         }
         SemesterController ctrl = new SemesterController();
+        ctrl.createSemester("2018-03-04", "2019-08-03");
         JSONObject json = ctrl.getSemesters();
 
         try{
