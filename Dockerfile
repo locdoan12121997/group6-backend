@@ -13,7 +13,7 @@ RUN apt-get -o Acquire::Check-Valid-Until=false update && apt-get install entr -
 # selectively add the POM file and
 # install dependencies
 COPY pom.xml /opt/app/
-RUN mvn install
+RUN mvn dependency:go-offline
 
 # rest of the project
 COPY src /opt/app/src

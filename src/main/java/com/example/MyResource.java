@@ -6,6 +6,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.json.*;
+
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -20,24 +22,24 @@ public class MyResource {
      * @return String that will be returned as a text/plain response.
      */
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
         String ans = "";
         try {
             Statement stm = Main.connection.createStatement();
-            String sql = "SELECT id, name FROM Persons";
+            String sql = "SELECT id FROM Semester";
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()){
                 int id = rs.getInt("id");
-                String name = rs.getString("name");
-                ans += id + ":\t" + name + "\n";
+                ans += id + ":\t";
             }
             rs.close();
             stm.close();
         }
         catch (Exception exp){
-            ans = exp.toString();
+            System.out.println(exp.toString());
         }
+        System.out.println(value);
         return ans;
     }
 }

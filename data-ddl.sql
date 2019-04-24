@@ -1,5 +1,5 @@
--- DROP DATABASE exam_register_db;
--- CREATE DATABASE exam_register_db;
+DROP DATABASE register_db;
+CREATE DATABASE register_db;
 USE register_db;
 
 CREATE TABLE Account(
