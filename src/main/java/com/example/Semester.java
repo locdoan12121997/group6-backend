@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.sql.Date;
 import javax.json.*;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -24,28 +27,30 @@ public class Semester {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getSemester() {
+    public String getSemester() {
         String ans = "";
         try {
+            final Map<String, ?> config = Collections.emptyMap();
             Statement stm = Main.connection.createStatement();
-            String sql = "SELECT * FROM Semester";
+            String sql = "CALL DeleteLecturer()";
             ResultSet rs = stm.executeQuery(sql);
             JsonBuilderFactory factory = Json.createBuilderFactory(config);
-//            JsonArray value = factory.createArrayBuilder();
+            JsonArrayBuilder jsonArrayBuilder = factory.createArrayBuilder();
             String pattern = "yyyy-MM-dd HH:mm:ss";
             DateFormat df = new SimpleDateFormat(pattern);
             while (rs.next()){
                 int id = rs.getInt("id");
                 Date dbSqlDate = rs.getDate("from_time");
                 String todayAsString = df.format(dbSqlDate);
-//                value.add(factory.createObjectBuilder()
-//                                .add("id", id)
-//                                .add("from_date", todayAsString));
+                JsonObjectBuilder object = factory.createObjectBuilder()
+                                .add("id", id)
+                                .add("from_date", todayAsString);
+                jsonArrayBuilder.add(object);
             }
             rs.close();
             stm.close();
-            JsonObject result = factory.createObjectBuilder()
-                    .add("data", value.build())
+            JsonObject object = factory.createObjectBuilder()
+                    .add("data", jsonArrayBuilder.build())
 //            JsonBuilderFactory factory = Json.createBuilderFactory(null);
 //            JsonObject value = factory.createObjectBuilder()
 //                    .add("firstName", "John")
@@ -64,7 +69,7 @@ public class Semester {
 //                                    .add("type", "fax")
 //                                    .add("number", "646 555-4567")))
                     .build();
-            return result.toString();
+            return jsonArrayBuilder.toString();
         }
         catch (Exception exp){
             ans = exp.toString();
