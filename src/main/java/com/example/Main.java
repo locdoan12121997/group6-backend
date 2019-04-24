@@ -17,6 +17,7 @@ public class Main {
     static final String DB_URL = "jdbc:mysql://jersey-db:3306/register_db";
     static final String USER = "user";
     static final String PASS = "password";
+    static final String sqlPath = ""
     static Connection connection = null;
 
     /**
@@ -44,10 +45,12 @@ public class Main {
             System.out.println("Connecting to jersey database");
             System.out.printf("%s %s %s", DB_URL, USER, PASS);
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = null;
         }
         catch (Exception exception){
             exception.printStackTrace();
         }
+
         finally {
             System.out.printf("%s %s %s", DB_URL, USER, PASS);
             System.out.println("Connecting to jersey database");
