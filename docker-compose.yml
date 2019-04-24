@@ -19,6 +19,7 @@ services:
     container_name: jersey-app
     restart: always
     build: .
+    image: jersey-app:tag
     ports:
       - '8080:8080'
     volumes:

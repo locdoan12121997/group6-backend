@@ -14,7 +14,7 @@ import java.sql.*;
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
     public static final String BASE_URI = "http://0.0.0.0:8080/myapp/";
-    static final String DB_URL = "jdbc:mysql://jersey_db:3306/register_db";
+    static final String DB_URL = "jdbc:mysql://jersey-db:3306/register_db";
     static final String USER = "user";
     static final String PASS = "password";
     static Connection connection = null;
@@ -42,12 +42,15 @@ public class Main {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Connecting to jersey database");
+            System.out.printf("%s %s %s", DB_URL, USER, PASS);
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
         }
         catch (Exception exception){
             exception.printStackTrace();
         }
         finally {
+            System.out.printf("%s %s %s", DB_URL, USER, PASS);
+            System.out.println("Connecting to jersey database");
             final HttpServer server = startServer();
         }
     }
