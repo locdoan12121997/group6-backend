@@ -258,7 +258,23 @@ END$$
 -- Create a session
 CREATE PROCEDURE CreateModuleSession(IN sessionDate DATE, IN fromTime TIME, IN toTime TIME, IN moduleId INTEGER)
 BEGIN
-    INSERT INTO 
+    INSERT INTO ModuleSession(date_of_session, from_time, to_time, module_id)
+    VALUE (sessionDate, fromTime, toTime, moduleId);
+END
+
+-- Delete a session
+CREATE PROCEDURE DeleteModuleSession(IN moduleId INTEGER)
+BEGIN
+    DELETE FROM ModuleSession
+    WHERE ModuleSession.module_id = module_Id;
+END
+
+-- Update a session
+CREATE PROCEDURE CreateModuleSession(IN sessionDate DATE, IN fromTime TIME, IN toTime TIME, IN moduleSessionId INTEGER)
+BEGIN
+    UPDATE ModuleSession
+    SET date_of_session = sessionDate, from_time = fromTime, to_time = toTime
+    VALUE ModuleSession.id = moduleSessionId;
 END
 
 DELIMITER ;
