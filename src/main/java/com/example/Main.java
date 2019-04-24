@@ -9,6 +9,9 @@ import java.net.URI;
 import java.sql.*;
 import org.json.JSONObject;
 import com.example.SemesterController;
+import java.util.Collections;
+import java.util.Map;
+
 /**
  * Main class.
  *
@@ -21,6 +24,21 @@ public class Main {
     static final String PASS = "loc123";
     static Connection connection = null;
 
+    public static ResultSet getResultSet(String query){
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            return statement.executeQuery(query);
+        } catch (SQLException sqle) {
+            try {
+                if (statement != null) statement.close();
+            } catch (SQLException sqle2) {}
+            finally {
+                return null;
+            }
+        }
+    }
+
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
      * @return Grizzly HTTP server.
@@ -32,7 +50,6 @@ public class Main {
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
-
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
