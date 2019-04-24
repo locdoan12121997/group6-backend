@@ -2,6 +2,56 @@ USE register_db;
 
 DELIMITER $$
 
+-- Create semester
+DROP PROCEDURE IF EXISTS CreateSemester;
+CREATE PROCEDURE CreateSemester(
+  IN fromTime DATE,
+  IN toTime DATE
+)
+BEGIN
+INSERT INTO
+	Semester(from_time, to_time)
+VALUES
+	(fromTime, toTime);
+END$$
+
+-- Get list of semester
+DROP PROCEDURE IF EXISTS GetSemesters;
+CREATE PROCEDURE GetSemesters()
+BEGIN
+SELECT * FROM Semester;
+END$$
+
+-- Delete semester by Id
+DROP PROCEDURE IF EXISTS DeleteSemester;
+CREATE PROCEDURE DeleteSemester(
+  IN semesterId INTEGER
+)
+BEGIN
+	DELETE FROM Semester WHERE id = semesterId;
+END$$
+
+-- Update semester by Id
+DROP PROCEDURE IF EXISTS UpdateSemester;
+CREATE PROCEDURE UpdateSemester(
+  IN semesterId INTEGER,
+  IN from_time DATE,
+  IN to_time DATE
+)
+BEGIN
+	UPDATE Semester
+	SET fromTime = from_time, toTime = to_time
+	WHERE id = semesterId;
+END$$
+
+-- -- Create an account ??
+CREATE PROCEDURE CreateAccount(IN userName VARCHAR(255), IN userPassword VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255))
+BEGIN
+    INSERT INTO Account (user_name, user_password, first_name, last_name)
+    VALUE (userName, userPassword, firstName, lastName);
+END$$
+
+
 -- Get student account list                                                   OK
 CREATE PROCEDURE GetStudents()
 BEGIN
@@ -53,8 +103,7 @@ END$$
 -- -- Create a student account                                                          OK
 CREATE PROCEDURE CreateStudentAccount(IN userName VARCHAR(255), IN userPassword VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255), IN studentCode VARCHAR(255))
 BEGIN
-    INSERT INTO Account (user_name, user_password, first_name, last_name)
-    VALUE (userName, userPassword, firstName, lastName);
+    CALL CreateAccount(userName, userPassword, firstName, lastName);
     INSERT INTO Student (account_id, code)
     VALUE (LAST_INSERT_ID(), studentCode);
 END$$
@@ -67,6 +116,26 @@ BEGIN
     JOIN Account ON Student.account_id = Account.id
     WHERE Account.user_name = userName
     AND Account.user_password = userPassword;
+END$$
+
+-- View attendance list by session id as Lecturer and Assistant
+CREATE PROCEDURE GetAttendanceListBySessionId(IN sessionId INTEGER)
+BEGIN
+    SELECT Student.*, Account.*
+    FROM Student
+    JOIN Attendance ON Student.id = Attendance.student_id
+    JOIN Account ON Student.account_id = Account.id
+    WHERE Attendance.session_id = sessionId;
+END$$
+
+--  View an register list by the exam id as Lecturer and Assistant
+CREATE PROCEDURE GetRegisterByExamId(IN examId INTEGER)
+BEGIN
+    SELECT Student.*, Account.*
+    FROM Student
+    JOIN RegisterList ON Student.account_id = RegisterList.student_id
+    JOIN Account ON Student.id = Account.id
+    WHERE RegisterList.exam_id = examId;
 END$$
 
 
@@ -94,8 +163,7 @@ END$$
 -- -- Create a lecturer account ??
 CREATE PROCEDURE CreateLecturerAccount(IN userName VARCHAR(255), IN userPassword VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255))
 BEGIN
-    INSERT INTO Account (user_name, user_password, first_name, last_name)
-    VALUE (userName, userPassword, firstName, lastName);
+    CALL CreateAccount(userName, userPassword, firstName, lastName);
     INSERT INTO Lecturer (account_id)
     VALUE (LAST_INSERT_ID());
 END$$
@@ -119,10 +187,6 @@ BEGIN
     WHERE Account.user_name = userName
     AND Account.user_password = userPassword;
 END$$
-
-
-
-
 
 
 
@@ -164,19 +228,6 @@ END$$
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 --  List all overlap module
 CREATE PROCEDURE GetOverlapModules()
 BEGIN
@@ -211,6 +262,13 @@ BEGIN
     WHERE ModuleList.module_id = moduleId;
 END$$
 
+--  Get all modules
+CREATE PROCEDURE GetAllModulesDetails()
+BEGIN
+    SELECT *
+    FROM Module;
+END$$
+
 -- View the details of a module
 CREATE PROCEDURE GetModuleDetails(IN moduleId INTEGER)
 BEGIN
@@ -242,13 +300,30 @@ BEGIN
     WHERE id = moduleId;
 END$$
 
+--  Enroll a student
+CREATE PROCEDURE EnrollStudent(IN studentId INTEGER, IN moduleId INTEGER)
+BEGIN
+    INSERT INTO ModuleList(student_id, module_id)
+    VALUE (studentId, moduleId);
+END$$
 
+--  Unenrollment for a student
+CREATE PROCEDURE UnenrollStudent(IN studentId INTEGER, IN moduleId INTEGER)
+BEGIN
+    DELETE
+    FROM ModuleList
+    WHERE student_id = studentId AND module_id = moduleId;
+END$$
 
-
-
-
-
-
+-- Get module list for all students in all modules
+CREATE PROCEDURE GetEnrollmentLists()
+BEGIN
+    SELECT student_id, first_name, last_name, Module.name, Module.code
+    FROM ModuleList
+    JOIN Student ON ModuleList.student_id = Student.id
+    JOIN Account ON Student.account_id = Account.id
+    JOIN Module ON Module.id = ModuleList.module_id;
+END$$
 
 
 
@@ -270,11 +345,109 @@ BEGIN
 END
 
 -- Update a session
-CREATE PROCEDURE CreateModuleSession(IN sessionDate DATE, IN fromTime TIME, IN toTime TIME, IN moduleSessionId INTEGER)
+CREATE PROCEDURE UpdateModuleSession(IN sessionDate DATE, IN fromTime TIME, IN toTime TIME, IN moduleSessionId INTEGER)
 BEGIN
     UPDATE ModuleSession
     SET date_of_session = sessionDate, from_time = fromTime, to_time = toTime
     VALUE ModuleSession.id = moduleSessionId;
 END
+
+
+
+-- Create exam
+CREATE PROCEDURE CreateExam(
+  IN dateOfExam    DATE    NOT NULL,
+  IN fromTime       TIME    NOT NULL,
+  IN toTime         TIME    NOT NULL,
+  IN deadline        DATE    NOT NULL,
+  IN moduleId       INTEGER NOT NULL,
+)
+BEGIN
+INSERT INTO Exam(date_of_exam, from_time, to_time, deadline, module_id)
+VALUES
+    (dateOfExam, fromTime, toTime, deadline, moduleId);
+END$$
+
+--  Delete an exam
+CREATE PROCEDURE DeleteExam(IN examId INTEGER)
+BEGIN
+    DELETE
+    FROM Exam
+    WHERE id = examId;
+END$$
+
+--  Update exam date/time
+CREATE PROCEDURE UpdateExam(IN examId INTEGER, IN examDate Date, IN examFromTime TIME, IN examToTime TIME, IN DeadLine Date)
+BEGIN
+    UPDATE Exam
+    SET date_of_exam = examDate, from_time = examFromTime, to_time = examToTime, deadline = DeadLine
+    WHERE id = examId;
+END$$
+
+--  Get all exams
+CREATE PROCEDURE GetExams()
+BEGIN
+    SELECT *
+    FROM Exam;
+END$$
+
+-- List all the exams for a given semester
+CREATE PROCEDURE GetExamBySemesterId(IN semesterId INTEGER)
+BEGIN
+    SELECT date_of_exam, Exam.from_time, Exam.to_time, deadline, code, name, Semester.from_time AS Semester_from_time, Semester.to_time AS Semester_to_time
+    FROM Exam JOIN Module ON Exam.module_id = Module.id
+    JOIN Semester ON Module.semester_id = Semester.id
+    WHERE Semester.id = semesterId;
+END$$
+
+
+
+-- Register an exam for a student
+CREATE PROCEDURE CreateRegister(IN studentId INTEGER, IN examId INTEGER)
+BEGIN
+    INSERT INTO RegisterList(student_id, exam_id)
+    VALUES (studentId, examId);
+END$$
+
+
+-- Unregister
+CREATE PROCEDURE DeleteRegister(IN studentId INTEGER, IN examId INTEGER)
+BEGIN
+    DELETE
+    FROM RegisterList
+    WHERE student_id = studentId AND exam_id = examId;
+END$$
+
+--  Get register list for all students in all modules
+CREATE PROCEDURE GetRegisters()
+BEGIN
+    SELECT student_id, first_name, last_name, Module.name, Module.code, Exam.date_of_exam
+    FROM Student
+    JOIN RegisterList ON Student.id = RegisterList.student_id
+    JOIN Account ON Student.account_id = Account.id
+    JOIN Exam ON RegisterList.exam_id = Exam.id
+    JOIN Module ON Exam.module_id = Module.id;
+END$$
+
+
+
+
+-- Sign the attendance list
+CREATE PROCEDURE CreateAttendance(IN studentId INTEGER, IN sessionId INTEGER)
+BEGIN
+    INSERT INTO Attendance(student_id, session_id)
+    VALUES (studentId, sessionId);
+END$$
+
+
+-- Unsign
+CREATE PROCEDURE DeleteAttendance(IN studentId INTEGER, IN sessionId INTEGER)
+BEGIN
+    DELETE
+    FROM Attendance
+    WHERE student_id = studentId AND session_id = sessionId;
+END$$
+
+
 
 DELIMITER ;

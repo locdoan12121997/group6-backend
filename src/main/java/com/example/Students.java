@@ -18,32 +18,6 @@ public class Students {
             return null;
         }
     }
-    public JSONObject GetRegistersByStudentId(int studentId){
-        try {
-            String query = String.format("CALL GetRegistersByStudentId(%d);", studentId);
-            ResultSet resultSet = Main.getResultSet(query);
-            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
-            resultSet.close();
-            return jsonObject;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-    public JSONObject GetModulesByStudentId(int studentId){
-        try {
-            String query = String.format("CALL GetModulesByStudentId(%d);", studentId);
-            ResultSet resultSet = Main.getResultSet(query);
-            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
-            resultSet.close();
-            return jsonObject;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public void UpdateStudentCodeByStudentId(int studentId, String studentCode){
         try {
@@ -86,6 +60,32 @@ public class Students {
         catch (Exception e){
             e.printStackTrace();
             return false;
+        }
+    }
+    public JSONObject GetAttendanceListBySessionId(int sessionId){
+        try {
+            String query = String.format("CALL GetAttendanceListBySessionId(%d);", sessionId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public JSONObject GetRegisterByExamId(int examId){
+        try {
+            String query = String.format("CALL GetRegisterByExamId(%d);", examId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

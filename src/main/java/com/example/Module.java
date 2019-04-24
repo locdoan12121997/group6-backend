@@ -45,6 +45,20 @@ public class Module {
         }
     }
 
+    public JSONObject GetAllModulesDetails(int moduleId){
+        try {
+            String query = "CALL GetAllModulesDetails();";
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public void CreateModule(String code, String name, int semesterId){
         try {
@@ -71,6 +85,64 @@ public class Module {
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+    }
+    public JSONObject GetRegistersByStudentId(int studentId){
+        try {
+            String query = String.format("CALL GetRegistersByStudentId(%d);", studentId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public JSONObject GetModulesByStudentId(int studentId){
+        try {
+            String query = String.format("CALL GetModulesByStudentId(%d);", studentId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public void EnrollStudent(int studentId, int moduleId){
+        try {
+            String query = String.format("CALL EnrollStudent(%d, %d);", studentId, moduleId);
+            Main.getResultSet(query).close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void UnenrollStudent(int studentId, int moduleId){
+        try {
+            String query = String.format("CALL UnenrollStudent(%d, %d);", studentId, moduleId);
+            Main.getResultSet(query).close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject EnrollmentLists(){
+        try {
+            String query = "CALL EnrollmentLists();";
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

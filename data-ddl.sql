@@ -483,48 +483,6 @@ DELETE FROM Attendance
 WHERE student_id = studentId AND session_id = sessionId;
 END$$
 
--- Create semester
-DROP PROCEDURE IF EXISTS CreateSemester;
-CREATE PROCEDURE CreateSemester(
-  IN fromTime DATE,
-  IN toTime DATE
-)
-BEGIN
-INSERT INTO
-	Semester(from_time, to_time)
-VALUES
-	(fromTime, toTime);
-END$$
-
--- Get list of semester
-DROP PROCEDURE IF EXISTS CreateSemester;
-CREATE PROCEDURE GetSemesters()
-BEGIN
-SELECT * FROM Semester;
-END$$
-
--- Delete semester by Id
-DROP PROCEDURE IF EXISTS DeleteSemester;
-CREATE PROCEDURE DeleteSemester(
-  IN semesterId INTEGER
-)
-BEGIN
-	DELETE FROM Semester WHERE id = semesterId;
-END$$
-
--- Update semester by Id
-DROP PROCEDURE IF EXISTS UpdateSemester;
-CREATE PROCEDURE UpdateSemester(
-  IN semesterId INTEGER,
-  IN from_time DATE,
-  IN to_time DATE
-)
-BEGIN
-	UPDATE Semester
-	SET fromTime = from_time, toTime = to_time
-	WHERE id = semesterId;
-END$$
-
 
 -- List all the exams for a given semester
 DROP PROCEDURE IF EXISTS GetExamBySemesterId;
