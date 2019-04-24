@@ -16,4 +16,22 @@ public class ModuleSession {
             e.printStackTrace();
         }
     }
+    public void DeleteModuleSession(int moduleId){
+        try {
+            String query = String.format("DeleteModuleSession(%d)", moduleId);
+            Main.getResultSet(query).close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void UpdateModuleSession(int moduleSessionId, Date sessionDate, Time fromTime, Time toTime){
+        try {
+            String query = String.format("CALL UpdateModuleSession(\"%s\", \"%s\", %d);", sessionDate.toString(), fromTime.toString(), toTime.toString(), moduleSessionId);
+            Main.getResultSet(query).close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
