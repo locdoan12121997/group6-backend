@@ -13,11 +13,11 @@ RUN apt-get -o Acquire::Check-Valid-Until=false update && apt-get install entr -
 # selectively add the POM file and
 # install dependencies
 COPY pom.xml /opt/app/
-RUN mvn dependency:go-offline
+RUN mvn install -DskipTests
 
 # rest of the project
 COPY src /opt/app/src
-RUN mvn package
+RUN mvn package -DskipTests
 
 # local application port
 EXPOSE 8080
