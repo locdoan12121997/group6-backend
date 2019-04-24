@@ -1,4 +1,4 @@
--- DROP DATABASE register_db;
+DROP DATABASE register_db;
 CREATE DATABASE register_db;
 USE register_db;
 
@@ -482,6 +482,20 @@ BEGIN
 DELETE FROM Attendance
 WHERE student_id = studentId AND session_id = sessionId;
 END$$
+
+-- Create semester
+DROP PROCEDURE IF EXISTS CreateSemester;
+CREATE PROCEDURE CreateSemester(
+  IN fromTime DATE,
+  IN toTime DATE
+)
+BEGIN
+INSERT INTO
+	Semester(from_time, to_time)
+VALUES
+	(fromTime, toTime);
+END$$
+
 
 -- List all the exams for a given semester
 DROP PROCEDURE IF EXISTS GetExamBySemesterId;
