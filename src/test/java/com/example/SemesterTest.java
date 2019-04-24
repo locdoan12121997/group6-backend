@@ -3,6 +3,8 @@ package com.example;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,15 +19,21 @@ public class SemesterTest {
     public SemesterTest() throws SQLException {
     }
 
-    private Statement stm = Main.connection.createStatement();
-    private ResultSet rs = null;
-    private String sql = new String();
-    private SemesterController ctrl = new SemesterController();
+    static final String DB_URL = "jdbc:mysql://localhost:3306/register_db";
+    static final String USER = "root";
+    static final String PASS = "loc123";
+    private Statement stm;
+    private ResultSet rs;
+    private String sql;
+    private SemesterController ctrl;
+    private Connection connection;
 
     @Before
     public void setUp() throws Exception {
+        stm = connection.createStatement();
         sql = "CALL CreateSemester(2015-01-01, 2016-02-02);";
         rs = stm.executeQuery(sql);
+        ctrl = new SemesterController();
     }
 
     @After

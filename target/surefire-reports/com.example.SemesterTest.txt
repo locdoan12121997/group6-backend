@@ -1,16 +1,28 @@
 -------------------------------------------------------------------------------
 Test set: com.example.SemesterTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.067 sec <<< FAILURE! - in com.example.SemesterTest
-testDeleteSemester(com.example.SemesterTest)  Time elapsed: 0.008 sec  <<< ERROR!
+Tests run: 6, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 0.083 sec <<< FAILURE! - in com.example.SemesterTest
+testDeleteSemester(com.example.SemesterTest)  Time elapsed: 0.011 sec  <<< ERROR!
 java.lang.NullPointerException: null
-	at com.example.SemesterTest.<init>(SemesterTest.java:20)
+	at com.example.SemesterTest.setUp(SemesterTest.java:28)
+
+testDeleteSemester(com.example.SemesterTest)  Time elapsed: 0.013 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at com.example.SemesterTest.tearDown(SemesterTest.java:36)
 
 testUpdateSemester(com.example.SemesterTest)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.NullPointerException: null
-	at com.example.SemesterTest.<init>(SemesterTest.java:20)
+	at com.example.SemesterTest.setUp(SemesterTest.java:28)
+
+testUpdateSemester(com.example.SemesterTest)  Time elapsed: 0.002 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at com.example.SemesterTest.tearDown(SemesterTest.java:36)
 
 testCreateSemester(com.example.SemesterTest)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.NullPointerException: null
-	at com.example.SemesterTest.<init>(SemesterTest.java:20)
+	at com.example.SemesterTest.setUp(SemesterTest.java:28)
+
+testCreateSemester(com.example.SemesterTest)  Time elapsed: 0.001 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at com.example.SemesterTest.tearDown(SemesterTest.java:36)
 
