@@ -7,6 +7,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.*;
+import org.json.JSONObject;
+import com.example.SemesterController;
 /**
  * Main class.
  *
@@ -27,9 +29,9 @@ public class Main {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.example package
         final ResourceConfig rc = new ResourceConfig().packages("com.example");
-
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
+
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
@@ -51,8 +53,18 @@ public class Main {
 
         finally {
             System.out.println("Connecting to jersey database");
-            final HttpServer server = startServer();
+//            final HttpServer server = startServer();
+
         }
+        SemesterController ctrl = new SemesterController();
+        JSONObject json = ctrl.getSemesters();
+
+        try{
+            System.out.println(json.toString('\t'));
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+
     }
 }
 
