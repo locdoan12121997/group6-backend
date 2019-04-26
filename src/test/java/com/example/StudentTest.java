@@ -39,8 +39,10 @@ public class StudentTest {
         }
         else fail();
         actual.close();
+
         //Verify
         assertFalse(!Students.VerifyStudentAccount("username", "password"));
+        assertFalse(Students.VerifyStudentAccount("wrongusername", "wrongpassword"));
 
 
         //Update
