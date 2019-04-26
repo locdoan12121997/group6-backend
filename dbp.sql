@@ -24,23 +24,17 @@ END$$
 
 -- Delete semester by Id
 DROP PROCEDURE IF EXISTS DeleteSemester;
-CREATE PROCEDURE DeleteSemester(
-  IN semesterId INTEGER
-)
+CREATE PROCEDURE DeleteSemester(IN semesterId INTEGER)
 BEGIN
 	DELETE FROM Semester WHERE id = semesterId;
 END$$
 
 -- Update semester by Id
 DROP PROCEDURE IF EXISTS UpdateSemester;
-CREATE PROCEDURE UpdateSemester(
-  IN semesterId INTEGER,
-  IN from_time DATE,
-  IN to_time DATE
-)
+CREATE PROCEDURE UpdateSemester(IN semesterId INTEGER, IN fromTime DATE, IN toTime DATE)
 BEGIN
 	UPDATE Semester
-	SET fromTime = from_time, toTime = to_time
+	SET from_time = fromTime, to_time = toTime
 	WHERE id = semesterId;
 END$$
 
@@ -66,7 +60,7 @@ BEGIN
     SELECT Module.name, Module.code
     FROM ModuleList
     JOIN Student ON ModuleList.student_id = Student.id
-    JOIN Module ON Module.id = ModuleList.module_id;
+    JOIN Module ON Module.id = ModuleList.module_id
     WHERE Student.id = studentId;
 END$$
 
@@ -83,11 +77,11 @@ END$$
 
 
 -- Update student code                                                        OK
-CREATE PROCEDURE UpdateStudentCodeByStudentId(IN studentId INTEGER, IN studentCode VARCHAR(255))
+CREATE PROCEDURE UpdateStudentCode(IN studentId INTEGER, IN studentCode VARCHAR(255))
 BEGIN
     UPDATE Student
     SET code = studentCode
-    WHERE id = 1;
+    WHERE id = studentId;
 END$$
 
 -- Delete a student from the system                                           OK
@@ -335,32 +329,32 @@ CREATE PROCEDURE CreateModuleSession(IN sessionDate DATE, IN fromTime TIME, IN t
 BEGIN
     INSERT INTO ModuleSession(date_of_session, from_time, to_time, module_id)
     VALUE (sessionDate, fromTime, toTime, moduleId);
-END
+END$$
 
 -- Delete a session
 CREATE PROCEDURE DeleteModuleSession(IN moduleId INTEGER)
 BEGIN
     DELETE FROM ModuleSession
     WHERE ModuleSession.module_id = module_Id;
-END
+END$$
 
 -- Update a session
 CREATE PROCEDURE UpdateModuleSession(IN sessionDate DATE, IN fromTime TIME, IN toTime TIME, IN moduleSessionId INTEGER)
 BEGIN
     UPDATE ModuleSession
     SET date_of_session = sessionDate, from_time = fromTime, to_time = toTime
-    VALUE ModuleSession.id = moduleSessionId;
-END
+    WHERE ModuleSession.id = moduleSessionId;
+END$$
 
 
 
 -- Create exam
 CREATE PROCEDURE CreateExam(
-  IN dateOfExam    DATE    NOT NULL,
-  IN fromTime       TIME    NOT NULL,
-  IN toTime         TIME    NOT NULL,
-  IN deadline        DATE    NOT NULL,
-  IN moduleId       INTEGER NOT NULL,
+  IN dateOfExam    DATE,
+  IN fromTime       TIME,
+  IN toTime         TIME,
+  IN deadline        DATE,
+  IN moduleId       INTEGER
 )
 BEGIN
 INSERT INTO Exam(date_of_exam, from_time, to_time, deadline, module_id)

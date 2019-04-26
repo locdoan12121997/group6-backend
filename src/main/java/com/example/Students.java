@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.sql.ResultSet;
 
 public class Students {
-    public JSONObject GetStudents(){
+    public static JSONObject GetStudents(){
         try {
             String query = "CALL GetStudents();";
             ResultSet resultSet = Main.getResultSet(query);
@@ -19,36 +19,36 @@ public class Students {
         }
     }
 
-    public void UpdateStudentCodeByStudentId(int studentId, String studentCode){
+    public static void UpdateStudentCode(int studentId, String studentCode){
         try {
-            String query = String.format("CALL UpdateStudentCodeByStudentId(%d, %s);", studentId, studentCode);
+            String query = String.format("CALL UpdateStudentCode(%d, '%s');", studentId, studentCode);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void DeleteStudentAccount(int student_id){
+    public static void DeleteStudentAccount(int student_id){
         try {
-            String query = String.format("CALL DeleteStudentByStudentId(%d);", student_id);
+            String query = String.format("CALL DeleteStudentAccount(%d);", student_id);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void CreateStudentAccount(String userName, String userPassword, String firstName, String lastName, String studentCode){
+    public static void CreateStudentAccount(String userName, String userPassword, String firstName, String lastName, String studentCode){
         try {
-            String query = String.format("CALL CreateStudentAccount(%s, %s, %s, %s, %s);", userName, userPassword, firstName, lastName, studentCode);
+            String query = String.format("CALL CreateStudentAccount('%s', '%s', '%s', '%s', '%s');", userName, userPassword, firstName, lastName, studentCode);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
-    public boolean VerifyStudentAccount(String userName, String userPassword){
+    public static boolean VerifyStudentAccount(String userName, String userPassword){
         try {
-            String query = String.format("CALL VerifyStudentAccount(%s, %s);", userName, userPassword);
+            String query = String.format("CALL VerifyStudentAccount('%s', '%s');", userName, userPassword);
             ResultSet resultSet = Main.getResultSet(query);
             if (resultSet.next()) {
                 resultSet.close();
@@ -62,7 +62,7 @@ public class Students {
             return false;
         }
     }
-    public JSONObject GetAttendanceListBySessionId(int sessionId){
+    public static JSONObject GetAttendanceListBySessionId(int sessionId){
         try {
             String query = String.format("CALL GetAttendanceListBySessionId(%d);", sessionId);
             ResultSet resultSet = Main.getResultSet(query);
@@ -75,7 +75,7 @@ public class Students {
             return null;
         }
     }
-    public JSONObject GetRegisterByExamId(int examId){
+    public static JSONObject GetRegisterByExamId(int examId){
         try {
             String query = String.format("CALL GetRegisterByExamId(%d);", examId);
             ResultSet resultSet = Main.getResultSet(query);

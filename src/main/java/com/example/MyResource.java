@@ -31,7 +31,7 @@ public class MyResource {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()){
                 int id = rs.getInt("id");
-                ans += id + ":\t";
+                ans += id + "\n";
             }
             rs.close();
             stm.close();

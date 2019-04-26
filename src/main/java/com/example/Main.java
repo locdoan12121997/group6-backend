@@ -7,10 +7,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.*;
-import org.json.JSONObject;
-import com.example.SemesterController;
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * Main class.
@@ -18,25 +14,29 @@ import java.util.Map;
  */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://0.0.0.0:8080/myapp/";
+    public static final String BASE_URI = "http://localhost:8080/myapp/";
     static final String DB_URL = "jdbc:mysql://localhost:3306/register_db";
-    static final String USER = "root";
-    static final String PASS = "loc123";
+    static final String USER = "user";
+    static final String PASS = "password";
     static Connection connection = null;
+    static Statement statement = null;
 
-    public static ResultSet getResultSet(String query){
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            return statement.executeQuery(query);
-        } catch (SQLException sqle) {
-            try {
-                if (statement != null) statement.close();
-            } catch (SQLException sqle2) {}
-            finally {
-                return null;
-            }
-        }
+    public static void establishConnection() throws SQLException, ClassNotFoundException{
+        if (connection != null) return;
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(DB_URL, USER, PASS);
+        statement = connection.createStatement();
+    }
+
+    public static ResultSet getResultSet(String query) throws SQLException {
+        ResultSet resultSet = statement.executeQuery(query);
+        return resultSet;
+    }
+
+    public static int LastInsertId() throws SQLException{
+        ResultSet resultSet = getResultSet("SELECT LAST_INSERT_ID();");
+        resultSet.next();
+        return resultSet.getInt("LAST_INSERT_ID()");
     }
 
     /**
@@ -60,10 +60,7 @@ public class Main {
      */
     public static void main(String[] args) throws IOException, SQLException {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Connecting to jersey database");
-            connection = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmt = null;
+            establishConnection();
         }
         catch (Exception exception){
             exception.printStackTrace();
@@ -71,19 +68,11 @@ public class Main {
 
         finally {
             System.out.println("Connecting to jersey database");
-//            final HttpServer server = startServer();
+            //final HttpServer server = startServer();
+            //System.in.read();
+            //server.stop();
 
         }
-        SemesterController ctrl = new SemesterController();
-        ctrl.createSemester("2018-03-04", "2019-08-03");
-        JSONObject json = ctrl.getSemesters();
-
-        try{
-            System.out.println(json.toString('\t'));
-        }catch (Exception exception){
-            exception.printStackTrace();
-        }
-
     }
 }
 

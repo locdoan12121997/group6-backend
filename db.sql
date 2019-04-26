@@ -214,10 +214,6 @@ INSERT INTO LecturerModule(lecturer_id, module_id)
 VALUES
     (1, 1), (1, 3), (1, 5), (1, 7),
     (2, 2), (2, 4), (2, 6), (2, 8);
-
-
-
-
 DELIMITER $$
 
 
