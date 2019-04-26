@@ -62,7 +62,7 @@ public class Module {
 
     public void CreateModule(String code, String name, int semesterId){
         try {
-            String query = String.format("CALL CreateModule(%s, %s, %d);", code, name, semesterId);
+            String query = String.format("CALL CreateModule('%s', '%s', %d);", code, name, semesterId);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
@@ -71,7 +71,7 @@ public class Module {
     }
     public void UpdateModule(int moduleId, String moduleCode, String moduleName){
         try {
-            String query = String.format("CALL UpdateModule(%d, %s, %s);", moduleId, moduleCode, moduleName);
+            String query = String.format("CALL UpdateModule(%d, '%s', '%s');", moduleId, moduleCode, moduleName);
             Main.getResultSet(query).close();
         }
         catch (Exception e){

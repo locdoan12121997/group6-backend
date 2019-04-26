@@ -9,7 +9,7 @@ import java.sql.Date;
 public class ModuleSession {
     public void CreateModuleSession(Date sessionDate, Time fromTime, Time toTime, int moduleId){
         try {
-            String query = String.format("CALL CreateModuleSession(\"%s\", \"%s\", %d);", sessionDate.toString(), fromTime.toString(), toTime.toString(), moduleId);
+            String query = String.format("CALL CreateModuleSession('%s', '%s', %d);", sessionDate.toString(), fromTime.toString(), toTime.toString(), moduleId);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
@@ -27,7 +27,7 @@ public class ModuleSession {
     }
     public void UpdateModuleSession(int moduleSessionId, Date sessionDate, Time fromTime, Time toTime){
         try {
-            String query = String.format("CALL UpdateModuleSession(\"%s\", \"%s\", %d);", sessionDate.toString(), fromTime.toString(), toTime.toString(), moduleSessionId);
+            String query = String.format("CALL UpdateModuleSession('%s', '%s', %d);", sessionDate.toString(), fromTime.toString(), toTime.toString(), moduleSessionId);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
