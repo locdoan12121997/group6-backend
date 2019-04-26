@@ -1,7 +1,5 @@
 package com.example;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +9,6 @@ import java.sql.*;
 import static org.junit.Assert.*;
 
 public class StudentTest {
-
-
-    public StudentTest() throws SQLException {
-
-    }
 
     @Before
     public void setUp() throws Exception {

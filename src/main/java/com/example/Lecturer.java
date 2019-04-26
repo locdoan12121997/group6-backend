@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.sql.ResultSet;
 
 public class Lecturer {
-    public JSONObject GetLecturers(){
+    public static JSONObject GetLecturers(){
         try {
             String query = String.format("CALL GetLecturers();");
             ResultSet resultSet = Main.getResultSet(query);
@@ -18,7 +18,7 @@ public class Lecturer {
             return null;
         }
     }
-    public JSONObject GetModulesByLecturerId(int lecturerId){
+    public static JSONObject GetModulesByLecturerId(int lecturerId){
         try {
             String query = String.format("CALL GetModulesByLecturerId(%d);", lecturerId);
             ResultSet resultSet = Main.getResultSet(query);
@@ -32,16 +32,16 @@ public class Lecturer {
         }
     }
 
-    public void CreateLecturerAccount(String userName, String userPassword, String firstName, String lastName, String studentCode){
+    public static void CreateLecturerAccount(String userName, String userPassword, String firstName, String lastName){
         try {
-            String query = String.format("CALL CreateLecturerAccount(%s, %s, %s, %s, %s);", userName, userPassword, firstName, lastName, studentCode);
+            String query = String.format("CALL CreateLecturerAccount('%s', '%s', '%s', '%s');", userName, userPassword, firstName, lastName);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void DeleteLecturerAccount(int lecturerId){
+    public static void DeleteLecturerAccount(int lecturerId){
         try {
             String query = String.format("CALL DeleteLecturerAccount(%d);", lecturerId);
             Main.getResultSet(query).close();
@@ -50,9 +50,9 @@ public class Lecturer {
             e.printStackTrace();
         }
     }
-    public boolean VerifyLecturerAccount(String userName, String userPassword){
+    public static boolean VerifyLecturerAccount(String userName, String userPassword){
         try {
-            String query = String.format("CALL VerifyLecturerAccount(%s, %s);", userName, userPassword);
+            String query = String.format("CALL VerifyLecturerAccount('%s', '%s');", userName, userPassword);
             ResultSet resultSet = Main.getResultSet(query);
             if (resultSet.next()) {
                 resultSet.close();
