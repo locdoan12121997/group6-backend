@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
 import java.sql.*;
 
 import static org.junit.Assert.*;
@@ -20,8 +21,7 @@ public class StudentTest {
     }
 
     @Test
-    public void testCRUD() throws Exception {
-        //Create
+    public void testCreateStudent() throws Exception {
         Students.CreateStudentAccount("username", "password", "firstname", "lastname", "code");
         int last_id = Main.LastInsertId();
         ResultSet actual = Main.getResultSet("SELECT * FROM Student JOIN Account ON Student.account_id = Account.id WHERE Student.id = " + last_id);
@@ -32,21 +32,36 @@ public class StudentTest {
         }
         else fail();
         actual.close();
+        Students.DeleteStudentAccount(last_id);
 
-        //Verify
-        assertFalse(!Students.VerifyStudentAccount("username", "password"));
-        assertFalse(Students.VerifyStudentAccount("wrongusername", "wrongpassword"));
+    }
 
-
-        //Update
-        Students.UpdateStudentCode(last_id, "code2");
-        actual = Main.getResultSet("SELECT * FROM Student WHERE id = " + last_id + " AND code = 'code2'");
+    @Test
+    public void testUpdateStudent() throws Exception {
+        Students.CreateStudentAccount("username", "password", "firstname", "lastname", "code");
+        int last_id = Main.LastInsertId();
+        Students.UpdateStudentCode(last_id, "code4");
+        ResultSet actual = Main.getResultSet("SELECT * FROM Student WHERE id = " + last_id + " AND code = 'code4'");
         if (!actual.next())  fail();
         actual.close();
-
-        //Delete
         Students.DeleteStudentAccount(last_id);
-        actual = Main.getResultSet("SELECT * FROM Student WHERE id = " + last_id);
+    }
+
+    @Test
+    public void testVerifyStudent() throws Exception {
+        Students.CreateStudentAccount("username", "password", "firstname", "lastname", "code");
+        int last_id = Main.LastInsertId();
+        assertFalse(!Students.VerifyStudentAccount("username", "password"));
+        assertFalse(Students.VerifyStudentAccount("wrongusername", "wrongpassword"));
+        Students.DeleteStudentAccount(last_id);
+    }
+
+    @Test
+    public void testDeleteStudent() throws Exception {
+        Students.CreateStudentAccount("username", "password", "firstname", "lastname", "code");
+        int last_id = Main.LastInsertId();
+        Students.DeleteStudentAccount(last_id);
+        ResultSet actual = Main.getResultSet("SELECT * FROM Student WHERE id = " + last_id);
         if (actual.next()) fail();
         actual.close();
     }

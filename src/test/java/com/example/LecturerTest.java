@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
 import java.sql.*;
 
 import static org.junit.Assert.*;
@@ -20,8 +21,7 @@ public class LecturerTest {
     }
 
     @Test
-    public void testCRUD() throws Exception {
-        //Create
+    public void testCreateLecturer() throws Exception {
         Lecturer.CreateLecturerAccount("username", "password", "firstname", "lastname");
         int last_id = Main.LastInsertId();
         ResultSet actual = Main.getResultSet("SELECT * FROM Lecturer JOIN Account ON Lecturer.account_id = Account.id WHERE Lecturer.id = " + last_id);
@@ -32,15 +32,24 @@ public class LecturerTest {
         }
         else fail();
         actual.close();
+        Lecturer.DeleteLecturerAccount(last_id);
+    }
 
-        //Verify
+    @Test
+    public void testVerifyLecturer() throws Exception {
+        Lecturer.CreateLecturerAccount("username", "password", "firstname", "lastname");
+        int last_id = Main.LastInsertId();
         assertFalse(!Lecturer.VerifyLecturerAccount("username", "password"));
         assertFalse(Lecturer.VerifyLecturerAccount("wrongusername", "wrongpassword"));
-
-
-        //Delete
         Lecturer.DeleteLecturerAccount(last_id);
-        actual = Main.getResultSet("SELECT * FROM Lecturer WHERE id = " + last_id);
+    }
+
+    @Test
+    public void testDeleteLecturer() throws Exception {
+        Lecturer.CreateLecturerAccount("username", "password", "firstname", "lastname");
+        int last_id = Main.LastInsertId();
+        Lecturer.DeleteLecturerAccount(last_id);
+        ResultSet actual = Main.getResultSet("SELECT * FROM Lecturer WHERE id = " + last_id);
         if (actual.next()) fail();
         actual.close();
     }
