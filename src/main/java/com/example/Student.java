@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import java.sql.ResultSet;
 
-public class Students {
+public class Student {
     public static JSONObject GetStudents(){
         try {
             String query = "CALL GetStudents();";
