@@ -18,7 +18,7 @@ public class ModuleSession {
     }
     public static void DeleteModuleSession(int moduleId){
         try {
-            String query = String.format("CALL DeleteModuleSession(%d)", moduleId);
+            String query = String.format("CALL DeleteModuleSession(%d);", moduleId);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
