@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import java.sql.ResultSet;
 
-public class Exam {
+public class 1Exam {
     public void CreateExam(String date_of_exam, String from_time, String to_time, String deadline, int module_id){
         try {
             String query = String.format("CALL CreateExam('%s', '%s', '%s', '%s', %d);", date_of_exam, from_time, to_time, deadline, module_id);

@@ -39,3 +39,17 @@ public class Assistant {
         }
     }
 }
+
+    public static JSONObject GetAssistantById(int assistantID){
+        try {
+            String query = String.format("CALL GetStudentById(%d);", studentId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
