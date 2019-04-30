@@ -16,8 +16,8 @@ public class Main {
     // Base URI the Grizzly HTTP server will listen on
     public static final String BASE_URI = "http://localhost:8080/myapp/";
     static final String DB_URL = "jdbc:mysql://localhost:3306/register_db";
-    static final String USER = "root";
-    static final String PASS = "loc123";
+    static final String USER = "user";
+    static final String PASS = "password";
     static Connection connection = null;
     static Statement statement = null;
 
