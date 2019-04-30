@@ -31,9 +31,9 @@ public class Module {
             return null;
         }
     }
-    public JSONObject GetModuleDetails(int moduleId){
+    public JSONObject GetModuleById(int moduleId){
         try {
-            String query = String.format("CALL GetModuleDetails(%d);", moduleId);
+            String query = String.format("CALL GetModuleById(%d);", moduleId);
             ResultSet resultSet = Main.getResultSet(query);
             JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
             resultSet.close();

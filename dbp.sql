@@ -16,6 +16,14 @@ BEGIN
     FROM Semester;
 END$$
 
+-- Get student account list                                                   OK
+CREATE PROCEDURE GetSemesterById(IN semesterId INTEGER)
+BEGIN
+    SELECT *
+    FROM Semester
+    WHERE Semester.id = semesterId;
+END$$
+
 -- Delete semester by Id
 CREATE PROCEDURE DeleteSemester(IN semesterId INTEGER)
 BEGIN
@@ -45,6 +53,15 @@ BEGIN
     SELECT account_id, code AS student_code, user_name, user_password, first_name, last_name
     FROM Student
     JOIN Account ON Student.account_id = Account.id;
+END$$
+
+-- Get student account list                                                   OK
+CREATE PROCEDURE GetStudentById(IN studentId INTEGER)
+BEGIN
+    SELECT account_id, code AS student_code, user_name, user_password, first_name, last_name
+    FROM Student
+    JOIN Account ON Student.account_id = Account.id;
+    WHERE Student.id = studentId;
 END$$
 
 -- Get module list for all students in all modules                            OK
@@ -178,9 +195,6 @@ END$$
 
 
 
-
-
-
 -- -- Create an assistant account ??
 CREATE PROCEDURE CreateAssistantAccount(IN userName VARCHAR(255), IN userPassword VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255))
 BEGIN
@@ -257,7 +271,7 @@ BEGIN
 END$$
 
 -- View the details of a module
-CREATE PROCEDURE GetModuleDetails(IN moduleId INTEGER)
+CREATE PROCEDURE GetModuleById(IN moduleId INTEGER)
 BEGIN
     SELECT *
     FROM Module
@@ -337,6 +351,14 @@ BEGIN
     UPDATE ModuleSession
     SET date_of_session = sessionDate, from_time = fromTime, to_time = toTime
     WHERE ModuleSession.id = moduleSessionId;
+END$$
+
+-- View the details of a module session
+CREATE PROCEDURE GetModuleSessionById(IN sessionId INTEGER)
+BEGIN
+    SELECT *
+    FROM Module
+    WHERE id = sessionId;
 END$$
 
 
