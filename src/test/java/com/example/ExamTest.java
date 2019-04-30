@@ -54,8 +54,6 @@ public class ExamTest {
         Exam.CreateExam("1111-11-20", "08:00:00", "10:00:00", "1111-11-11", module_id);
         int last_id = Main.LastInsertId();
         Exam.UpdateExam(last_id, "1111-11-21", "09:00:00", "11:00:00", "1111-11-12");
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        System.out.println("SELECT * FROM Exam WHERE id = " + last_id + ";");
         ResultSet actual = Main.getResultSet("SELECT * FROM Exam WHERE id = " + last_id + ";");
         if (actual.next()) {
             assertEquals("1111-11-21", actual.getString("date_of_exam"));

@@ -66,8 +66,6 @@ public class Lecturer {
             return false;
         }
     }
-}
-
 
     public static JSONObject GetLecturerById(int lecturerId){
         try {
@@ -82,3 +80,4 @@ public class Lecturer {
             return null;
         }
     }
+}

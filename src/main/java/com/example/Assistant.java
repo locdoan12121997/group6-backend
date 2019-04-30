@@ -1,6 +1,8 @@
 package com.example;
 
 
+import org.json.JSONObject;
+
 import java.sql.ResultSet;
 
 public class Assistant {
@@ -38,11 +40,10 @@ public class Assistant {
             return false;
         }
     }
-}
 
-    public static JSONObject GetAssistantById(int assistantID){
+    public static JSONObject GetAssistantById(int assistantId){
         try {
-            String query = String.format("CALL GetStudentById(%d);", studentId);
+            String query = String.format("CALL GetAssistantById(%d);", assistantId);
             ResultSet resultSet = Main.getResultSet(query);
             JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
             resultSet.close();
@@ -53,3 +54,4 @@ public class Assistant {
             return null;
         }
     }
+}

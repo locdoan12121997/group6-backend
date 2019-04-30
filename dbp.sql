@@ -58,9 +58,9 @@ END$$
 -- Get student account list                                                   OK
 CREATE PROCEDURE GetStudentById(IN studentId INTEGER)
 BEGIN
-    SELECT account_id, code AS student_code, user_name, user_password, first_name, last_name
+    SELECT Student.*, Account.*
     FROM Student
-    JOIN Account ON Student.account_id = Account.id;
+    JOIN Account ON Student.account_id = Account.id
     WHERE Student.id = studentId;
 END$$
 
@@ -473,23 +473,23 @@ BEGIN
     WHERE student_id = studentId AND session_id = sessionId;
 END$$
 
---Get Lecturer by ID
+-- Get Lecturer by ID
 
 CREATE PROCEDURE GetLecturerById(IN lectureId INTEGER)
 BEGIN
     SELECT Lecturer.*, Account.*
     FROM Lecturer
-    JOIN Account ON Lecturer.account_id = Account.id;
+    JOIN Account ON Lecturer.account_id = Account.id
     WHERE Lecturer.id = lecturerId;
 END$$
 
 
---Get Assistant by ID
+-- Get Assistant by ID
 CREATE PROCEDURE GetAssistantById(IN assistantId INTEGER)
 BEGIN
     SELECT Assistant.*, Account.*
     FROM Assistant
-    JOIN Account ON Assistant.account_id = Account.id;
+    JOIN Account ON Assistant.account_id = Account.id
     WHERE Assistant.id = assistantId;
 END$$
 
