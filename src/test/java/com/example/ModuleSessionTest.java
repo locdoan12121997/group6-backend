@@ -28,20 +28,42 @@ public class ModuleSessionTest {
 
     @Test
     public void CreateModuleSession() throws Exception{
-        ModuleSession.CreateModuleSession("1111-11-11", "08:45:12", "12:00:12", moduleId);
+        ModuleSession.CreateModuleSession("1111-11-11", "08:45:00", "12:00:00", moduleId);
         int last_id = Main.LastInsertId();
         ResultSet actual = Main.getResultSet("SELECT * FROM  ModuleSession WHERE id = " + last_id);
-        if (actual.next()){
-            System.out.println(actual.getDate("date_of_session"));
-            System.out.println(actual.getTime("from_time"));
-            System.out.println(actual.getTime("to_time"));
-            System.out.println(actual.getInt("module_id"));
-            assertEquals("1111-11-11", actual.getDate("date_of_session").toString());
-            assertEquals("09:45:12", actual.getTime("from_time").toString());
-            assertEquals("13:00:12", actual.getTime("to_time").toString());
+        if (actual.next()) {
+            assertEquals("1111-11-11", actual.getString("date_of_session"));
+            assertEquals("08:45:00", actual.getString("from_time"));
+            assertEquals("12:00:00", actual.getString("to_time"));
             assertEquals(moduleId, actual.getInt("module_id"));
-        }
-        else fail();
+        } else fail();
+        actual.close();
         ModuleSession.DeleteModuleSession(last_id);
+    }
+
+    @Test
+    public void DeleteModuleSession() throws Exception{
+        ModuleSession.CreateModuleSession("1111-11-11", "08:45:00", "12:00:00", moduleId);
+        int last_id = Main.LastInsertId();
+        ModuleSession.DeleteModuleSession(last_id);
+        ResultSet actual = Main.getResultSet("SELECT * FROM  ModuleSession WHERE id = " + last_id);
+        if (actual.next()) fail();
+        actual.close();
+    }
+
+    @Test
+    public void UpdateModuleSession() throws Exception{
+        ModuleSession.CreateModuleSession("1111-11-11", "08:45:00", "12:00:00", moduleId);
+        int last_id = Main.LastInsertId();
+        ModuleSession.UpdateModuleSession(last_id, "1212-12-12", "09:46:01", "13:01:01");
+        ResultSet actual = Main.getResultSet("SELECT * FROM  ModuleSession WHERE id = " + last_id);
+        if (actual.next()) {
+            assertEquals("1212-12-12", actual.getString("date_of_session"));
+            assertEquals("09:46:01", actual.getString("from_time"));
+            assertEquals("13:01:01", actual.getString("to_time"));
+            assertEquals(moduleId, actual.getInt("module_id"));
+        } else fail();
+        ModuleSession.DeleteModuleSession(last_id);
+        actual.close();
     }
 }
