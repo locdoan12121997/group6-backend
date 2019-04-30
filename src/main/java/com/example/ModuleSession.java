@@ -25,9 +25,9 @@ public class ModuleSession {
             e.printStackTrace();
         }
     }
-    public void UpdateModuleSession(int moduleSessionId, Date sessionDate, Time fromTime, Time toTime){
+    public static void UpdateModuleSession(int moduleSessionId, String sessionDate, String fromTime, String toTime){
         try {
-            String query = String.format("CALL UpdateModuleSession('%s', '%s', %d);", sessionDate.toString(), fromTime.toString(), toTime.toString(), moduleSessionId);
+            String query = String.format("CALL UpdateModuleSession(%d, '%s', '%s', '%s');", moduleSessionId, sessionDate, fromTime, toTime);
             Main.getResultSet(query).close();
         }
         catch (Exception e){

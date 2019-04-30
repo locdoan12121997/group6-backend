@@ -55,7 +55,7 @@ CREATE TABLE Module(
 CREATE TABLE ModuleSession(
     date_of_session DATE    NOT NULL,
     from_time       TIME    NOT NULL,
-    to_time         TIME NOT NULL,
+    to_time         TIME    NOT NULL,
     id              INTEGER NOT NULL AUTO_INCREMENT,
     module_id       INTEGER NOT NULL,
     PRIMARY KEY (id),
