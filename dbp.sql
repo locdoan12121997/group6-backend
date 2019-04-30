@@ -361,6 +361,14 @@ BEGIN
     WHERE id = sessionId;
 END$$
 
+-- View the details of a module session
+CREATE PROCEDURE GetModuleSessionByModuleId(IN moduleId INTEGER)
+BEGIN
+    SELECT *
+    FROM ModuleSession
+    WHERE module_id = moduleId;
+END$$
+
 
 
 -- Create exam
@@ -398,6 +406,14 @@ CREATE PROCEDURE GetExams()
 BEGIN
     SELECT *
     FROM Exam;
+END$$
+
+-- List all the exams for a given semester
+CREATE PROCEDURE GetExamById(IN examId INTEGER)
+BEGIN
+    SELECT *
+    FROM Exam
+    WHERE id = examId;
 END$$
 
 -- List all the exams for a given semester

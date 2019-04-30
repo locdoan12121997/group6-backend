@@ -48,4 +48,18 @@ public class ModuleSession {
             return null;
         }
     }
+
+    public JSONObject GetModuleSessionByModuleId(int moduleId){
+        try {
+            String query = String.format("CALL GetModuleSessionByModuleId(%d);", moduleId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

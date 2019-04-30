@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import java.sql.ResultSet;
 
-public class 1Exam {
+public class Exam {
     public void CreateExam(String date_of_exam, String from_time, String to_time, String deadline, int module_id){
         try {
             String query = String.format("CALL CreateExam('%s', '%s', '%s', '%s', %d);", date_of_exam, from_time, to_time, deadline, module_id);
@@ -49,6 +49,20 @@ public class 1Exam {
     public JSONObject GetExamBySemesterId(int semesterId){
         try {
             String query = String.format("CALL GetExamBySemesterId(%d);", semesterId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public JSONObject GetExamById(int examId){
+        try {
+            String query = String.format("CALL GetExamById(%d);", examId);
             ResultSet resultSet = Main.getResultSet(query);
             JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
             resultSet.close();
