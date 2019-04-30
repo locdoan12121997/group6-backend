@@ -11,21 +11,24 @@ import static org.junit.Assert.*;
 
 public class ExamTest {
 
+    int semester_id, module_id;
     @Before
     public void setUp() throws Exception {
         Main.establishConnection();
+        Semester.CreateSemester("1111-11-01", "1111-11-11");
+        semester_id = Main.LastInsertId();
+        Module.CreateModule("test module", "testing", semester_id);
+        module_id = Main.LastInsertId();
     }
 
     @After
     public void tearDown() throws Exception {
+        Module.DeleteModule(module_id);
+        Semester.DeleteSemester(semester_id);
     }
 
     @Test
     public void testCreateExam() throws Exception {
-        Semester.CreateSemester("1111-11-01", "1111-11-11");
-        int semester_id = Main.LastInsertId();
-        Module.CreateModule("test module", "testing", semester_id);
-        int module_id = Main.LastInsertId();
         Exam.CreateExam("1111-11-20", "08:00:00", "10:00:00", "1111-11-11", module_id);
         int last_id = Main.LastInsertId();
         ResultSet actual = Main.getResultSet("SELECT * FROM Exam WHERE id = " + last_id + ";");
@@ -41,16 +44,10 @@ public class ExamTest {
         }
         actual.close();
         Exam.DeleteExam(last_id);
-        Module.DeleteModule(module_id);
-        Semester.DeleteSemester(semester_id);
     }
 
     @Test
     public void testUpdateExam() throws Exception {
-        Semester.CreateSemester("1111-11-01", "1111-11-11");
-        int semester_id = Main.LastInsertId();
-        Module.CreateModule("test module 1", "testing", semester_id);
-        int module_id = Main.LastInsertId();
         Exam.CreateExam("1111-11-20", "08:00:00", "10:00:00", "1111-11-11", module_id);
         int last_id = Main.LastInsertId();
         Exam.UpdateExam(last_id, "1111-11-21", "09:00:00", "11:00:00", "1111-11-12");
@@ -65,24 +62,16 @@ public class ExamTest {
         else fail();
         actual.close();
         Exam.DeleteExam(last_id);
-        Module.DeleteModule(module_id);
-        Semester.DeleteSemester(semester_id);
     }
 
 
     @Test
     public void testDeleteExam() throws Exception {
-        Semester.CreateSemester("1111-11-01", "1111-11-11");
-        int semester_id = Main.LastInsertId();
-        Module.CreateModule("test module 2", "testing", semester_id);
-        int module_id = Main.LastInsertId();
         Exam.CreateExam("1111-11-20", "08:00:00", "10:00:00", "1111-11-11", module_id);
         int last_id = Main.LastInsertId();
         Exam.DeleteExam(last_id);
-        ResultSet actual = Main.getResultSet("SELECT * FROM Semester WHERE id = " + last_id + ";");
+        ResultSet actual = Main.getResultSet("SELECT * FROM Exam WHERE id = " + last_id + ";");
         if (actual.next()) fail();
         actual.close();
-        Module.DeleteModule(module_id);
-        Semester.DeleteSemester(semester_id);
     }
 }
