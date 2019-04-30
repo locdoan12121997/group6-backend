@@ -11,51 +11,48 @@ import static org.junit.Assert.*;
 
 public class AttendanceTest {
 
-    int semester_id, module_id, session_id, student_id;
+    int semesterId, moduleId, sessionId, studentId;
 
     @Before
     public void setUp() throws Exception {
         Main.establishConnection();
-        Semester.CreateSemester("1111-11-01", "1111-11-11");
-        semester_id = Main.LastInsertId();
-        Module.CreateModule("test module 3", "testing", semester_id);
-        module_id = Main.LastInsertId();
-        ModuleSession.CreateModuleSession("1111-11-11", "08:45:00", "12:00:00", module_id);
-        session_id = Main.LastInsertId();
-        Student.CreateStudentAccount("username", "password", "firstname", "lastname", "code 5");
-        student_id = Main.LastInsertId();
+        Student.CreateStudentAccount("username", "password", "firstname", "lastname", "code");
+        studentId = Main.LastInsertId();
+        Semester.CreateSemester("1111-11-11", "1212-12-12");
+        semesterId = Main.LastInsertId();
+        Module.CreateModule("code", "name", semesterId);
+        moduleId = Main.LastInsertId();
+        ModuleSession.CreateModuleSession("1111-11-11", "08:45:00", "12:00:00", moduleId);
+        sessionId = Main.LastInsertId();
     }
 
     @After
     public void tearDown() throws Exception {
-        Student.DeleteStudentAccount(student_id);
-        ModuleSession.DeleteModuleSession(session_id);
-        Module.DeleteModule(module_id);
-        Semester.DeleteSemester(semester_id);
+        ModuleSession.DeleteModuleSession(sessionId);
+        Module.DeleteModule(moduleId);
+        Semester.DeleteSemester(semesterId);
+        Student.DeleteStudentAccount(studentId);
     }
 
     @Test
     public void testCreateAttendance() throws Exception {
-        Attendance.CreateAttendance(student_id, session_id);
-        ResultSet actual = Main.getResultSet("SELECT * FROM Attendance" +
-                " WHERE student_id = " + student_id + " session_id = " + student_id + ";");
+        Attendance.CreateAttendance(studentId, sessionId);
+        ResultSet actual = Main.getResultSet(String.format("SELECT * FROM Attendance WHERE student_id = %d AND session_id = %d", studentId, sessionId));
         if (actual.next()) {
-            assertEquals(student_id,actual.getInt("student_id"));
-            assertEquals(session_id,actual.getInt("session_id"));
+            assertEquals(studentId,actual.getInt("student_id"));
+            assertEquals(sessionId,actual.getInt("session_id"));
         }
         else fail();
         actual.close();
-//        Attendance.DeleteAttendance(student_id, session_id);
-
+        Attendance.DeleteAttendance(studentId, sessionId);
     }
 
     @Test
     public void testDeleteAttendance() throws Exception {
-        Attendance.CreateAttendance(student_id, session_id);
-        ResultSet actual = Main.getResultSet("SELECT * FROM Attendance" +
-                " WHERE student_id = " + student_id + " session_id = " + student_id + ";");
+        Attendance.CreateAttendance(studentId, sessionId);
+        Attendance.DeleteAttendance(studentId, sessionId);
+        ResultSet actual = Main.getResultSet(String.format("SELECT * FROM Attendance WHERE student_id = %d AND session_id = %d", studentId, sessionId));
         if (actual.next()) fail();
         actual.close();
-        Attendance.DeleteAttendance(student_id,session_id);
     }
 }
