@@ -3,39 +3,32 @@ USE register_db;
 DELIMITER $$
 
 -- Create semester
-DROP PROCEDURE IF EXISTS CreateSemester;
-CREATE PROCEDURE CreateSemester(
-  IN fromTime DATE,
-  IN toTime DATE
-)
+CREATE PROCEDURE CreateSemester(IN fromTime DATE, IN toTime DATE)
 BEGIN
-INSERT INTO
-	Semester(from_time, to_time)
-VALUES
-	(fromTime, toTime);
+    INSERT INTO Semester(from_time, to_time)
+    VALUE	(fromTime, toTime);
 END$$
 
 -- Get list of semester
-DROP PROCEDURE IF EXISTS GetSemesters;
 CREATE PROCEDURE GetSemesters()
 BEGIN
-SELECT * FROM Semester;
+    SELECT *
+    FROM Semester;
 END$$
 
 -- Delete semester by Id
-DROP PROCEDURE IF EXISTS DeleteSemester;
 CREATE PROCEDURE DeleteSemester(IN semesterId INTEGER)
 BEGIN
-	DELETE FROM Semester WHERE id = semesterId;
+    DELETE
+    FROM Semester WHERE id = semesterId;
 END$$
 
 -- Update semester by Id
-DROP PROCEDURE IF EXISTS UpdateSemester;
 CREATE PROCEDURE UpdateSemester(IN semesterId INTEGER, IN fromTime DATE, IN toTime DATE)
 BEGIN
-	UPDATE Semester
-	SET from_time = fromTime, to_time = toTime
-	WHERE id = semesterId;
+	  UPDATE Semester
+	  SET from_time = fromTime, to_time = toTime
+	  WHERE id = semesterId;
 END$$
 
 -- -- Create an account ??
