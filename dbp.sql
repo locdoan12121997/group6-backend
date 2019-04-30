@@ -357,7 +357,7 @@ END$$
 CREATE PROCEDURE GetModuleSessionById(IN sessionId INTEGER)
 BEGIN
     SELECT *
-    FROM Module
+    FROM ModuleSession
     WHERE id = sessionId;
 END$$
 
