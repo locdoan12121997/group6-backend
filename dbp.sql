@@ -325,18 +325,18 @@ BEGIN
 END$$
 
 -- Delete a session
-CREATE PROCEDURE DeleteModuleSession(IN moduleId INTEGER)
+CREATE PROCEDURE DeleteModuleSession(IN moduleSessionId INTEGER)
 BEGIN
     DELETE FROM ModuleSession
-    WHERE ModuleSession.module_id = module_Id;
+    WHERE id = moduleSessionId;
 END$$
 
 -- Update a session
-CREATE PROCEDURE UpdateModuleSession(IN sessionDate DATE, IN fromTime TIME, IN toTime TIME, IN moduleSessionId INTEGER)
+CREATE PROCEDURE UpdateModuleSession(IN moduleSessionId INTEGER, IN sessionDate DATE, IN fromTime TIME, IN toTime TIME)
 BEGIN
     UPDATE ModuleSession
     SET date_of_session = sessionDate, from_time = fromTime, to_time = toTime
-    WHERE ModuleSession.id = moduleSessionId;
+    WHERE id = moduleSessionId;
 END$$
 
 
