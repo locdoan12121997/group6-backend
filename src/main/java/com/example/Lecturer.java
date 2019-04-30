@@ -66,4 +66,18 @@ public class Lecturer {
             return false;
         }
     }
+
+    public static JSONObject GetLecturerById(int lecturerId){
+        try {
+            String query = String.format("CALL GetLecturerById(%d);", lecturerId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

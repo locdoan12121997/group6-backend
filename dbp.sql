@@ -16,6 +16,14 @@ BEGIN
     FROM Semester;
 END$$
 
+-- Get student account list                                                   OK
+CREATE PROCEDURE GetSemesterById(IN semesterId INTEGER)
+BEGIN
+    SELECT *
+    FROM Semester
+    WHERE Semester.id = semesterId;
+END$$
+
 -- Delete semester by Id
 CREATE PROCEDURE DeleteSemester(IN semesterId INTEGER)
 BEGIN
@@ -45,6 +53,15 @@ BEGIN
     SELECT account_id, code AS student_code, user_name, user_password, first_name, last_name
     FROM Student
     JOIN Account ON Student.account_id = Account.id;
+END$$
+
+-- Get student account list                                                   OK
+CREATE PROCEDURE GetStudentById(IN studentId INTEGER)
+BEGIN
+    SELECT Student.*, Account.*
+    FROM Student
+    JOIN Account ON Student.account_id = Account.id
+    WHERE Student.id = studentId;
 END$$
 
 -- Get module list for all students in all modules                            OK
@@ -178,9 +195,6 @@ END$$
 
 
 
-
-
-
 -- -- Create an assistant account ??
 CREATE PROCEDURE CreateAssistantAccount(IN userName VARCHAR(255), IN userPassword VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255))
 BEGIN
@@ -257,7 +271,7 @@ BEGIN
 END$$
 
 -- View the details of a module
-CREATE PROCEDURE GetModuleDetails(IN moduleId INTEGER)
+CREATE PROCEDURE GetModuleById(IN moduleId INTEGER)
 BEGIN
     SELECT *
     FROM Module
@@ -339,6 +353,22 @@ BEGIN
     WHERE id = moduleSessionId;
 END$$
 
+-- View the details of a module session
+CREATE PROCEDURE GetModuleSessionById(IN sessionId INTEGER)
+BEGIN
+    SELECT *
+    FROM ModuleSession
+    WHERE id = sessionId;
+END$$
+
+-- View the details of a module session
+CREATE PROCEDURE GetModuleSessionByModuleId(IN moduleId INTEGER)
+BEGIN
+    SELECT *
+    FROM ModuleSession
+    WHERE module_id = moduleId;
+END$$
+
 
 
 -- Create exam
@@ -376,6 +406,14 @@ CREATE PROCEDURE GetExams()
 BEGIN
     SELECT *
     FROM Exam;
+END$$
+
+-- List all the exams for a given semester
+CREATE PROCEDURE GetExamById(IN examId INTEGER)
+BEGIN
+    SELECT *
+    FROM Exam
+    WHERE id = examId;
 END$$
 
 -- List all the exams for a given semester
@@ -435,6 +473,24 @@ BEGIN
     WHERE student_id = studentId AND session_id = sessionId;
 END$$
 
+-- Get Lecturer by ID
 
+CREATE PROCEDURE GetLecturerById(IN lectureId INTEGER)
+BEGIN
+    SELECT Lecturer.*, Account.*
+    FROM Lecturer
+    JOIN Account ON Lecturer.account_id = Account.id
+    WHERE Lecturer.id = lecturerId;
+END$$
+
+
+-- Get Assistant by ID
+CREATE PROCEDURE GetAssistantById(IN assistantId INTEGER)
+BEGIN
+    SELECT Assistant.*, Account.*
+    FROM Assistant
+    JOIN Account ON Assistant.account_id = Account.id
+    WHERE Assistant.id = assistantId;
+END$$
 
 DELIMITER ;

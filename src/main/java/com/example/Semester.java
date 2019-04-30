@@ -1,5 +1,9 @@
 package com.example;
 
+import org.json.JSONObject;
+
+import java.sql.ResultSet;
+
 public class Semester {
     public static void CreateSemester(String fromTime, String toTime){
         try {
@@ -26,6 +30,20 @@ public class Semester {
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public static JSONObject GetSemesterById(int semesterId){
+        try {
+            String query = String.format("CALL GetSemesterById(%d);", semesterId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

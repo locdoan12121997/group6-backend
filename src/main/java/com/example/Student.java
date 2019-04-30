@@ -19,6 +19,20 @@ public class Student {
         }
     }
 
+    public static JSONObject GetStudentById(int studentId){
+        try {
+            String query = String.format("CALL GetStudentById(%d);", studentId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static void UpdateStudentCode(int studentId, String studentCode){
         try {
             String query = String.format("CALL UpdateStudentCode(%d, '%s');", studentId, studentCode);

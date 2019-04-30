@@ -24,7 +24,7 @@ public class Exam {
         }
     }
 
-    public void UpdateExam(String date_of_exam, String from_time, String to_time, String deadline, int exam_id){
+    public static void UpdateExam(int exam_id, String date_of_exam, String from_time, String to_time, String deadline){
         try {
             String query = String.format("CALL UpdateExam(%d, '%s', '%s', '%s', '%s');", exam_id, date_of_exam, from_time, to_time, deadline);
             Main.getResultSet(query).close();
@@ -49,6 +49,20 @@ public class Exam {
     public JSONObject GetExamBySemesterId(int semesterId){
         try {
             String query = String.format("CALL GetExamBySemesterId(%d);", semesterId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public JSONObject GetExamById(int examId){
+        try {
+            String query = String.format("CALL GetExamById(%d);", examId);
             ResultSet resultSet = Main.getResultSet(query);
             JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
             resultSet.close();

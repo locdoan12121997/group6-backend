@@ -1,6 +1,8 @@
 package com.example;
 
 
+import org.json.JSONObject;
+
 import java.sql.ResultSet;
 
 public class Assistant {
@@ -36,6 +38,20 @@ public class Assistant {
         catch (Exception e){
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static JSONObject GetAssistantById(int assistantId){
+        try {
+            String query = String.format("CALL GetAssistantById(%d);", assistantId);
+            ResultSet resultSet = Main.getResultSet(query);
+            JSONObject jsonObject = JsonSerializer.convertToJSON(resultSet);
+            resultSet.close();
+            return jsonObject;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }
