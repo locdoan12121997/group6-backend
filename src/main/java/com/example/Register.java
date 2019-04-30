@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.sql.ResultSet;
 
 public class Register {
-    public void CreateRegister(int studentId, int examId){
+    public static void CreateRegister(int studentId, int examId){
         try {
             String query = String.format("CALL CreateRegister(%d, %d);", studentId, examId);
             Main.getResultSet(query).close();
@@ -14,7 +14,7 @@ public class Register {
             e.printStackTrace();
         }
     }
-    public void DeleteRegister(int studentId, int examId){
+    public static void DeleteRegister(int studentId, int examId){
         try {
             String query = String.format("CALL DeleteRegister(%d, %d);", studentId, examId);
             Main.getResultSet(query).close();

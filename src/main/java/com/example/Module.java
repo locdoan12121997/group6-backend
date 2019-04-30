@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.sql.ResultSet;
 
 public class Module {
-    public JSONObject GetOverlapModules(){
+    public static JSONObject GetOverlapModules(){
         try {
             String query = "CALL GetOverlapModules();";
             ResultSet resultSet = Main.getResultSet(query);
@@ -18,7 +18,7 @@ public class Module {
             return null;
         }
     }
-    public JSONObject GetEnrollsByModuleId(int moduleId){
+    public static JSONObject GetEnrollsByModuleId(int moduleId){
         try {
             String query = String.format("CALL GetEnrollsByModuleId(%d);", moduleId);
             ResultSet resultSet = Main.getResultSet(query);
@@ -31,7 +31,7 @@ public class Module {
             return null;
         }
     }
-    public JSONObject GetModuleById(int moduleId){
+    public static JSONObject GetModuleById(int moduleId){
         try {
             String query = String.format("CALL GetModuleById(%d);", moduleId);
             ResultSet resultSet = Main.getResultSet(query);
@@ -45,7 +45,7 @@ public class Module {
         }
     }
 
-    public JSONObject GetAllModulesDetails(int moduleId){
+    public static JSONObject GetAllModulesDetails(int moduleId){
         try {
             String query = "CALL GetAllModulesDetails();";
             ResultSet resultSet = Main.getResultSet(query);
@@ -60,7 +60,7 @@ public class Module {
     }
 
 
-    public void CreateModule(String code, String name, int semesterId){
+    public static void CreateModule(String code, String name, int semesterId){
         try {
             String query = String.format("CALL CreateModule('%s', '%s', %d);", code, name, semesterId);
             Main.getResultSet(query).close();
@@ -69,7 +69,7 @@ public class Module {
             e.printStackTrace();
         }
     }
-    public void UpdateModule(int moduleId, String moduleCode, String moduleName){
+    public static void UpdateModule(int moduleId, String moduleCode, String moduleName){
         try {
             String query = String.format("CALL UpdateModule(%d, '%s', '%s');", moduleId, moduleCode, moduleName);
             Main.getResultSet(query).close();
@@ -78,7 +78,7 @@ public class Module {
             e.printStackTrace();
         }
     }
-    public void DeleteModule(int moduleId){
+    public static void DeleteModule(int moduleId){
         try {
             String query = String.format("CALL DeleteModule(%d);", moduleId);
             Main.getResultSet(query).close();
@@ -87,7 +87,7 @@ public class Module {
             e.printStackTrace();
         }
     }
-    public JSONObject GetRegistersByStudentId(int studentId){
+    public static JSONObject GetRegistersByStudentId(int studentId){
         try {
             String query = String.format("CALL GetRegistersByStudentId(%d);", studentId);
             ResultSet resultSet = Main.getResultSet(query);
@@ -100,7 +100,7 @@ public class Module {
             return null;
         }
     }
-    public JSONObject GetModulesByStudentId(int studentId){
+    public static JSONObject GetModulesByStudentId(int studentId){
         try {
             String query = String.format("CALL GetModulesByStudentId(%d);", studentId);
             ResultSet resultSet = Main.getResultSet(query);
@@ -113,7 +113,7 @@ public class Module {
             return null;
         }
     }
-    public void EnrollStudent(int studentId, int moduleId){
+    public static void EnrollStudent(int studentId, int moduleId){
         try {
             String query = String.format("CALL EnrollStudent(%d, %d);", studentId, moduleId);
             Main.getResultSet(query).close();
@@ -122,7 +122,7 @@ public class Module {
             e.printStackTrace();
         }
     }
-    public void UnenrollStudent(int studentId, int moduleId){
+    public static void UnenrollStudent(int studentId, int moduleId){
         try {
             String query = String.format("CALL UnenrollStudent(%d, %d);", studentId, moduleId);
             Main.getResultSet(query).close();
@@ -132,7 +132,7 @@ public class Module {
         }
     }
 
-    public JSONObject EnrollmentLists(){
+    public static JSONObject EnrollmentLists(){
         try {
             String query = "CALL EnrollmentLists();";
             ResultSet resultSet = Main.getResultSet(query);

@@ -7,18 +7,18 @@ import java.sql.Time;
 import java.sql.Date;
 
 public class ModuleSession {
-    public void CreateModuleSession(Date sessionDate, Time fromTime, Time toTime, int moduleId){
+    public static void CreateModuleSession(String sessionDate, String fromTime, String toTime, int moduleId){
         try {
-            String query = String.format("CALL CreateModuleSession('%s', '%s', %d);", sessionDate.toString(), fromTime.toString(), toTime.toString(), moduleId);
+            String query = String.format("CALL CreateModuleSession('%s', '%s', '%s', %d);", sessionDate, fromTime, toTime, moduleId);
             Main.getResultSet(query).close();
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void DeleteModuleSession(int moduleId){
+    public static void DeleteModuleSession(int moduleId){
         try {
-            String query = String.format("DeleteModuleSession(%d)", moduleId);
+            String query = String.format("CALL DeleteModuleSession(%d)", moduleId);
             Main.getResultSet(query).close();
         }
         catch (Exception e){

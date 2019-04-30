@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.sql.ResultSet;
 
 public class Exam {
-    public void CreateExam(String date_of_exam, String from_time, String to_time, String deadline, int module_id){
+    public static void CreateExam(String date_of_exam, String from_time, String to_time, String deadline, int module_id){
         try {
             String query = String.format("CALL CreateExam('%s', '%s', '%s', '%s', %d);", date_of_exam, from_time, to_time, deadline, module_id);
             Main.getResultSet(query).close();
@@ -14,7 +14,7 @@ public class Exam {
             e.printStackTrace();
         }
     }
-    public void DeleteExam(int exam_id){
+    public static void DeleteExam(int exam_id){
         try {
             String query = String.format("CALL DeleteExam(%d);", exam_id);
             Main.getResultSet(query).close();
@@ -24,7 +24,7 @@ public class Exam {
         }
     }
 
-    public void UpdateExam(String date_of_exam, String from_time, String to_time, String deadline, int exam_id){
+    public static void UpdateExam(int exam_id, String date_of_exam, String from_time, String to_time, String deadline){
         try {
             String query = String.format("CALL UpdateExam(%d, '%s', '%s', '%s', '%s');", exam_id, date_of_exam, from_time, to_time, deadline);
             Main.getResultSet(query).close();
