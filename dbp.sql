@@ -503,4 +503,18 @@ BEGIN
     JOIN Account ON Lecturer.account_id = Account.id;
 END$$
 
+-- Get student session of a module and its attendance
+CREATE PROCEDURE GetStudentSessions(IN moduleId INTEGER, IN studentId INTEGER)
+BEGIN
+    SELECT *, IF(EXISTS(
+        SELECT *
+        FROM Attendance
+        WHERE Attendance.student_id = studentId
+        AND Attendance.session_id = ModuleSession.id
+    ), "True", "False") AS Attended
+    FROM ModuleSession
+    JOIN Module ON Module.id = ModuleSession.module_id
+    WHERE Module.id = moduleId;
+END$$
+
 DELIMITER ;
