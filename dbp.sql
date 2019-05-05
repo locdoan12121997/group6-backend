@@ -147,13 +147,6 @@ END$$
 
 
 
--- Get lecturer account list
-CREATE PROCEDURE GetLecturers()
-BEGIN
-    SELECT account_id, user_name, user_password, first_name, last_name
-    FROM Lecturer
-    JOIN Account ON Lecturer.account_id = Account.id;
-END$$
 
 --  View module as Lecturer
 CREATE PROCEDURE GetModulesByLecturerId(IN lecturerId INTEGER)
@@ -419,7 +412,7 @@ END$$
 -- List all the exams for a given semester
 CREATE PROCEDURE GetExamBySemesterId(IN semesterId INTEGER)
 BEGIN
-    SELECT date_of_exam, Exam.from_time, Exam.to_time, deadline, code, name, Semester.from_time AS Semester_from_time, Semester.to_time AS Semester_to_time
+    SELECT Exam.*, Semester.*
     FROM Exam JOIN Module ON Exam.module_id = Module.id
     JOIN Semester ON Module.semester_id = Semester.id
     WHERE Semester.id = semesterId;
@@ -491,6 +484,23 @@ BEGIN
     FROM Assistant
     JOIN Account ON Assistant.account_id = Account.id
     WHERE Assistant.id = assistantId;
+END$$
+
+
+-- Get assistant account list                                                   OK
+CREATE PROCEDURE GetAssistants()
+BEGIN
+    SELECT Assistant.*, Account.*
+    FROM Assistant
+    JOIN Account ON Assistant.account_id = Account.id;
+END$$
+
+-- Get lecturer account list
+CREATE PROCEDURE GetLecturers()
+BEGIN
+    SELECT Lecturer.*, Account.*
+    FROM Lecturer
+    JOIN Account ON Lecturer.account_id = Account.id;
 END$$
 
 DELIMITER ;
